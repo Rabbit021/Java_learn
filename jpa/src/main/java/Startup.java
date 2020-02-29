@@ -2,6 +2,7 @@ import entity.Customer;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 /**
@@ -13,6 +14,7 @@ import javax.persistence.Persistence;
  */
 public class Startup {
     public static void main(String[] args) {
+
         Customer customer = new Customer();
         customer.setId(1);
         customer.setLastName("heng");
@@ -20,10 +22,10 @@ public class Startup {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myJpa");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-
-        //EntityTransaction transaction = entityManager.getTransaction();
-       // entityManager.persist(customer);
-       // transaction.commit();
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+        entityManager.persist(customer);
+        transaction.commit();
 
         entityManager.close();
         entityManagerFactory.close();
