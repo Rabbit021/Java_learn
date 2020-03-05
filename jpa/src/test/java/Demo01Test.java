@@ -1,4 +1,7 @@
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import entity.Customer;
+import entity.EnegyItem;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,15 +38,40 @@ public class Demo01Test {
     }
 
     @Test
+    public void testPrimaryKey() {
+        EnegyItem enegyItem = new EnegyItem();
+        enegyItem.setEnenrgyItemSign("sign");
+        enegyItem.setEnergyItemName("name");
+        enegyItem.setEnergySystemSign("1");
+        enegyItem.setParentEnergyItemSign("1");
+
+        entityManager.persist(enegyItem);
+
+    }
+
+    @Test
     public void save() {
         Customer customer = new Customer();
         customer.setLastName("John");
-
         EntityTransaction transaction = entityManager.getTransaction();
-
         transaction.begin();
         // 保存数据貌似是要在事务里面
         entityManager.persist(customer);
         transaction.commit();
+    }
+
+    @Test
+    public void testJson() throws JsonProcessingException {
+        Customer customer = new Customer();
+        customer.setLastName("John");
+        
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        String jsonString = objectMapper.writeValueAsString(customer);
+        System.out.println(jsonString);
+
+        Customer customer1 = objectMapper.readValue(jsonString, Customer.class);
+        System.out.println(customer1.toString());
+
     }
 }

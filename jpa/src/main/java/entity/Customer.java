@@ -1,11 +1,10 @@
-
 package entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * @author wangheng
@@ -20,9 +19,11 @@ import javax.persistence.Table;
 @Table(name = "t_customer")
 public class Customer {
 
-    @Id
-    @GeneratedValue
+    @Transient
     private Integer id;
+
+    @Id
+    private Address address;
 
     @Column(name = "LastName")
     private String lastName;
@@ -41,5 +42,14 @@ public class Customer {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", address=" + address +
+                ", lastName='" + lastName + '\'' +
+                '}';
     }
 }
